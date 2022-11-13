@@ -1,6 +1,3 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
 
 /**
  * @param {string} path
@@ -14,7 +11,12 @@ export function isExternal(path) {
  * @param {string} str
  * @returns {Boolean}
  */
-export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
+export function validUserAccount(str) {
+  // const valid_map = ['admin', 'editor']
+  // return valid_map.indexOf(str.trim()) >= 0
+  return /^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(str)
+}
+
+export function validUserPassword(str) {
+  return /.*[`~!@#$%^&*()+=|{}':;',\[\].<>/?~！@#￥%……&*()——+|{}【】‘；：”“’。，、？\\]+.*/.test(str)
 }
