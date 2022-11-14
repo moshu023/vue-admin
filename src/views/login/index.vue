@@ -55,14 +55,18 @@ export default {
   name: 'Login',
   data() {
     const validateUserAccount = (rule, value, callback) => {
-      if (!validUserAccount(value)) {
+      if (value.length === 0) {
+        callback(new Error('用户账号不能为空！'))
+      } else if (!validUserAccount(value)) {
         callback(new Error('用户账号只能由中文、英文和下划线组成！'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 8) {
+      if (value.length === 0) {
+        callback(new Error('密码不能为空！'))
+      } else if (value.length < 8) {
         callback(new Error('密码不少于8位字符！'))
       } else if (validUserPassword(value)) {
         callback(new Error('密码不能含有特殊字符！'))
