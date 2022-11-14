@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">SQL 生成器</h3>
       </div>
 
       <el-form-item prop="userAccount">
@@ -40,7 +40,25 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
+      <el-form-item prop="verifyCode" style="display: inline-block;width: 250px;:inline-false;">
+        <span class="svg-container">
+          <svg-icon icon-class="email" />
+        </span>
+        <el-input
+          v-model="loginForm.verifyCode"
+          tabindex="3"
+          name="verifyCode"
+          placeholder="请输入验证码"
+          style="width: 210px"
+        />
+      </el-form-item>
+      <div style=" position:absolute;top: 390px;display:inline;margin-left: 35px;">
+        <img
+          alt="点击刷新"
+          src="http://localhost:8085/user/check"
+          onclick="this.src='http://localhost:8085/user/check?d='+new Date()*1"
+        >
+      </div>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
     </el-form>
@@ -74,14 +92,23 @@ export default {
         callback()
       }
     }
+    const validateVerifyCode = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error('请输入验证码！'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         userAccount: '',
-        userPassword: ''
+        userPassword: '',
+        verifyCode: ''
       },
       loginRules: {
         userAccount: [{ required: true, trigger: 'blur', validator: validateUserAccount }],
-        userPassword: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        userPassword: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        verifyCode: [{ required: true, trigger: 'blur', validator: validateVerifyCode }]
       },
       loading: false,
       passwordType: 'password',
